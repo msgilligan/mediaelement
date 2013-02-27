@@ -27,6 +27,8 @@ describe("HTMLMediaElement", function() {
     player.remove();
     player = null;
     element = null;
+    // Reload domElem to be compatible with pull request #779
+    domElem = document.getElementById('player1');
     domElem.parentNode.removeChild(domElem);
     domElem = null;
   });

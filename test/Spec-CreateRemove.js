@@ -30,15 +30,20 @@ describe("HTMLMediaElement", function() {
       return element !== null;
     }, "MediaElement should have loaded", 5000);
     runs(function() {
+        var playerid = player.id;
         expect(element.pluginType).toEqual('native');
         player.remove();
         player = null;
         element = null;
+        // Reload domElem to be compatible with pull request #779
+        domElem = document.getElementById('player1');
         domElem.parentNode.removeChild(domElem);
         domElem = null;
         // Issue #670: https://github.com/johndyer/mediaelement/issues/670
-        expect(mejs.players.length).toEqual(0);
-
+        // Since pull request #779 changed from array to object (assoc array)
+        // this test had to change from using array length to testing for the
+        // absence of an entry with the corresponding playerid
+        expect(mejs.players[playerid]).toBeUndefined();
     });
   });
 
